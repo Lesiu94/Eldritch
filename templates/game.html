@@ -591,7 +591,7 @@
 
             var name = $('input[name=stuffName]').val()
             $.ajax({
-                url: "game/" + $(".modal-header").text() + "/" + $("#type").text() + "/random",
+                url: "game/" + $(".modal-header").first().text() + "/" + $("#type").text() + "/random",
                 type: 'POST',
                 data: {attr: JSON.stringify(array)},
                 success: function (data) {
