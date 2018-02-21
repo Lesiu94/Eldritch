@@ -556,7 +556,7 @@
 
             for (var i = 0; i < array.length; i++) {
                 $.ajax({
-                    url: "game/" + $(".modal-header").text() + "/" + $("#type").text() + "/" + array[i],
+                    url: "game/" + $(".modal-header").first().text() + "/" + $("#type").text() + "/" + array[i],
                     type: 'DELETE',
                     success: function (data) {
                         window.location.reload()
@@ -572,7 +572,7 @@
 
             var name = $('input[name=stuffName]').val()
             $.ajax({
-                url: "game/" + $(".modal-header").text() + "/" + $("#type").text() + "/" + name,
+                url: "game/" + $(".modal-header").first().text() + "/" + $("#type").text() + "/" + name,
                 type: 'POST',
                 success: function (data) {
                     window.location.reload()

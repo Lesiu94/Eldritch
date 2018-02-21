@@ -13,15 +13,22 @@ game = Game()
 firstLoad = True
 
 
+
 @app.route('/eldritch')
 def collectionSite():
     return render_template('collectionSite.html', name='collection')
 
 
-@app.route('/setCollection', methods=['POST'])
-def setCollection():
-    collection.setCollection(request.form.get('collection'))
-    return 'ok'
+
+# @app.route('/setCollection', methods=['POST'])
+# def setCollection():
+#     collection.setCollection(request.form.get('collection'))
+#     return 'ok'
+
+class SetCollectionAPI(Resource):
+    def post(self):
+        collection.setCollection(request.form.get('collection'))
+        return 'ok'
 
 
 @app.route('/chooseInvestigators', methods=['GET'])
@@ -29,14 +36,27 @@ def chooseInvestigators():
     invHtml = makeInvestigatorsForChoose(collection.makeInvestigatorsForChoose())
     return render_template('chooseInvestigators.html', name='chooseInvestigators', investigators=invHtml)
 
+# class ChooseInvestigatorsAPI(Resource):
+#     def get(self):
+#         invHtml = makeInvestigatorsForChoose(collection.makeInvestigatorsForChoose())
+#         return render_template('chooseInvestigators.html', name='chooseInvestigators', investigators=invHtml)
 
-@app.route('/setInvestigators', methods=['POST'])
-def setInvestigators():
-    game.investigators = collection.makeInvestigatorsForGame(request.form.get('investigators'))
-    game.availableItems = collection.makeItems()
-    game.availableSpells = collection.makeSpells()
-    game.availableConditions = collection.makeConditions()
-    return 'ok'
+
+# @app.route('/setInvestigators', methods=['POST'])
+# def setInvestigators():
+#     game.investigators = collection.makeInvestigatorsForGame(request.form.get('investigators'))
+#     game.availableItems = collection.makeItems()
+#     game.availableSpells = collection.makeSpells()
+#     game.availableConditions = collection.makeConditions()
+#     return 'ok'
+
+class SetInvestigatorsAPI(Resource):
+    def post(self):
+        game.investigators = collection.makeInvestigatorsForGame(request.form.get('investigators'))
+        game.availableItems = collection.makeItems()
+        game.availableSpells = collection.makeSpells()
+        game.availableConditions = collection.makeConditions()
+        return 'ok'
 
 
 @app.route('/startGame', methods=['GET'])
@@ -44,6 +64,13 @@ def startGame():
     if not game.started:
         game.startGame()
     return render_template('game.html', name='game', game=game)
+
+
+# class StartGameAPI(Resource):
+#     def get(self):
+#         if not game.started:
+#             game.startGame()
+#         return render_template('game.html', name='game', game=game)
 
 
 class GameAPI(Resource):
@@ -83,6 +110,8 @@ def isInt(value):
 
 api.add_resource(InvestigatorAPI, '/game/<string:inv>/<string:typ>')
 api.add_resource(GameAPI, '/game/<string:inv>/<string:typ>/<string:name>')
+api.add_resource(SetInvestigatorsAPI, '/setInvestigators')
+api.add_resource(SetCollectionAPI, '/setCollection')
 
 
 if __name__ == '__main__':
