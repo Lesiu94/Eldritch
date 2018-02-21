@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Set yours collection</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+
+            <button type="button" id="endButton" class="btn btn-block btn-lg btn-danger">
+                End game
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            <h2>
+                SHOP
+            </h2>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:50px;">
+        <div class="col-md-3" style="text-align: center;">
+            <button type="button" id="shopButton0" class="btn btn-block btn-lg shopButton">
+                {{ game.shop[0].name }}
+            </button>
+        </div>
+        <div class="col-md-3" style="text-align: center;">
+            <button type="button" id="shopButton1" class="btn btn-block btn-lg shopButton">
+                {{ game.shop[1].name }}
+            </button>
+        </div>
+        <div class="col-md-3" style="text-align: center;">
+            <button type="button" id="shopButton2" class="btn btn-block btn-lg shopButton">
+                {{ game.shop[2].name }}
+            </button>
+        </div>
+        <div class="col-md-3" style="text-align: center;">
+            <button type="button" id="shopButton3" class="btn btn-block btn-lg shopButton">
+                {{ game.shop[3].name }}
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for index in range(0, (((game.investigators|length - 1)/2) + 1)|int  ) %}
+                <div class="row" style="margin-bottom:25px;">
+                    <div class="col-md-3 investigator" value="{{ game.investigators[2*index].name }}"
+                         id={{ "investigator" + (2*index)|string }} style="text-align: center;
+                    ">
+                    <h3>
+                        {{ game.investigators[2*index].name }}
+                    </h3>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom:10px;">
+                            <button type="button" nr={{ (2*index)|string }} id={{ "itemButton" + (2*index)|string }}
+                                    class="btn btn-block
+                                        btn-lg itemButton
+                                ">
+                                Items: {{ game.investigators[2*index].items|length }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom:10px;">
+                            <button type="button" nr={{ (2*index)|string }} id={{ "spellButton" + (2*index)|string }}
+                                    class="btn btn-block
+                                        btn-lg spellButton
+                                ">
+                                Spells: {{ game.investigators[2*index].spells|length }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom:10px;">
+                            <button type="button"
+                                    nr={{ (2*index)|string }} id={{ "conditionButton" + (2*index)|string }} class="btn btn-block
+                                        btn-lg conditionButton
+                                ">
+                                Conditions: {{ game.investigators[2*index].conditions|length }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% if not ((2*index) + 2 > game.investigators|length) %}
+                    <div class="col-md-3 investigator" value="{{ game.investigators[2*index + 1].name }}"
+                         id={{ "investigator" + (2*index + 1)|string }} style="text-align: center;">
+                    <h3>
+                        {{ game.investigators[2*index + 1].name }}
+                    </h3>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-12" style="margin-bottom:10px;">
+                                <button type="button"
+                                        nr={{ (2*index + 1)|string }} id={{ "itemButton" + (2*index)|string }} class="btn
+                                            btn-block btn-lg itemButton
+                                    ">
+                                    Items: {{ game.investigators[2*index + 1].items|length }}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="margin-bottom:10px;">
+                                <button type="button"
+                                        nr={{ (2*index + 1)|string }} id={{ "spellButton" + (2*index + 1)|string }}
+                                        class="btn
+                                        btn-block btn-lg spellButton
+                                ">
+                                    Spells: {{ game.investigators[2*index + 1].spells|length }}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="margin-bottom:10px;">
+                                <button type="button"
+                                        nr={{ (2*index + 1)|string }} id={{ "conditionButton" + (2*index + 1)|string }}
+                                        class="btn
+                                        btn-block btn-lg conditionButton
+                                ">
+                                    Conditions: {{ game.investigators[2*index + 1].conditions|length }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                </div>
+            {% endfor %}
+</div>
+</div>
+</div>
+
+<div id="shopModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Buy</h2>
+                    </div>
+                </div>
+                <div class="invContainer">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+
+                        <button type="button" class="btn btn-block btn-lg btn-danger discardShopButton">
+                            Discard from shop
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div id="type" style=" visibility: hidden">
+
+        </div>
+        <div class="modal-header">
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div id="stuffContainer">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <button type="button" id="discardButton" class="btn btn-lg btn-danger btn-block">
+                            Discard
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+
+                        <button type="button" id="tradeButton" class="btn btn-warning btn-block btn-lg"
+                                style="visibility: hidden">
+                            Trade
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" name="stuffName">
+                    </div>
+                    <div class="col-md-6">
+
+                        <button type="button" id="addButton" class="btn btn-block btn-lg btn-success">
+                            Add
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6" id="attrContainer">
+                    </div>
+                    <div class="col-md-6">
+
+                        <button type="button" id="addRandomButton" class="btn btn-success btn-lg btn-block">
+                            Add random
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+
+
+    <script>
+
+        var itemAttrArray = ["Artifact", "Item", "Tome", "Weapon", "Magical", "Relic", "Elixir", "Teamwork", "Service", "Ally", "Trinket"]
+        var spelAttrArray = ["Ritual", "Incantation", "Teamwork", "Glamour"]
+        var conditionAttrArray = ["Boon", "Bane", "Injury", "Illness", "Madness", "Talent", "Boon", "Restriction", "Deal", "Common", "Exposure"]
+
+
+        // Get the modal
+        var modal = document.getElementById('myModal');
+        var shopModal = document.getElementById('shopModal');
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal || event.target == shopModal) {
+                modal.style.display = "none";
+                shopModal.style.display = "none";
+            }
+        }
+
+
+        var templateStuff = "\n" +
+            "                            <div class=\"col-md-4 stuff0\">\n" +
+            "                                \n" +
+            "                            </div>\n" +
+            "                            <div class=\"col-md-4 stuff1\">\n" +
+            "                                \n" +
+            "                            </div>\n" +
+            "                            <div class=\"col-md-4 stuff2\">\n" +
+            "                                \n" +
+            "                            </div>\n"
+
+        var templateAttr = "\n" +
+            "                            <div class=\"col-md-6 attr0\">\n" +
+            "                                \n" +
+            "                            </div>\n" +
+            "                            <div class=\"col-md-6 attr1\">\n" +
+            "                                \n" +
+            "                            </div>\n"
+
+        var templateInv = "\n" +
+            "                            <div class=\"col-md-6 inv0\">\n" +
+            "                                \n" +
+            "                            </div>\n" +
+            "                            <div class=\"col-md-6 inv1\">\n" +
+            "                                \n" +
+            "                            </div>\n"
+
+        $('.itemButton').on('click', function (event) {
+            event.preventDefault();
+            var inv = "#investigator" + $(this).attr('nr')
+            var items
+            $.get("/game/" + $(inv).text().trim() + "/item", function () {
+            })
+                .done(function (data) {
+                    items = data
+
+                    modal.style.display = "block";
+                    $("#type").text("item")
+                    $(".modal-header").text($(inv).text().trim())
+                    var stuffArray = JSON.parse(data)
+
+                    $("#stuffContainer").empty()
+                    for (var i = 0; i < Math.floor(((stuffArray.length - 1) / 3) + 1); i++) {
+
+                        $("#stuffContainer").append("                    <div class=\"row " + " row" + i + "\">" + templateStuff)
+
+                        var row = ".row" + (i)
+                        var checkbox = ""
+
+                        if (typeof stuffArray[(3 * i)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[3 * i] + "\">\n"
+                            checkbox += stuffArray[3 * i] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff0").append(checkbox)
+                        }
+
+                        if (typeof stuffArray[((3 * i) + 1)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[(3 * i) + 1] + "\">\n"
+                            checkbox += stuffArray[(3 * i) + 1] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff1").append(checkbox)
+                        }
+
+                        if (typeof stuffArray[((3 * i) + 2)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[(3 * i) + 2] + "\">\n"
+                            checkbox += stuffArray[(3 * i) + 2] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff2").append(checkbox)
+                        }
+
+                        $("#attrContainer").empty()
+
+                        for (var i = 0; i < Math.floor(((itemAttrArray.length - 1) / 2) + 1); i++) {
+                            $("#attrContainer").append("                    <div class=\"row " + " attrRow" + i + "\">" + templateAttr)
+
+                            var row = ".attrRow" + (i)
+                            var checkbox = ""
+
+                            var checkbox = ""
+
+                            if (typeof itemAttrArray[(2 * i)] !== 'undefined') {
+                                checkbox = "                        <label class=\"form-check-label\">\n" +
+                                    "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"attr\" value=\"" + itemAttrArray[2 * i] + "\">\n"
+                                checkbox += itemAttrArray[2 * i] + "\n" +
+                                    "                        </label>"
+                                $(row).find(".attr0").append(checkbox)
+                            }
+
+                            if (typeof itemAttrArray[((2 * i) + 1)] !== 'undefined') {
+                                checkbox = "                        <label class=\"form-check-label\">\n" +
+                                    "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"attr\" value=\"" + itemAttrArray[(2 * i) + 1] + "\">\n"
+                                checkbox += itemAttrArray[(2 * i) + 1] + "\n" +
+                                    "                        </label>"
+                                $(row).find(".attr1").append(checkbox)
+                            }
+                        }
+
+                    }
+
+                })
+
+        });
+
+        $('.spellButton').on('click', function (event) {
+            event.preventDefault();
+            var inv = "#investigator" + $(this).attr('nr')
+            console.log(inv)
+            var spells
+            $.get("/game/" + $(inv).text().trim() + "/spell", function () {
+            })
+                .done(function (data) {
+                    spells = data
+
+                    modal.style.display = "block";
+                    $("#type").text("spell")
+                    $(".modal-header").text($(inv).text().trim())
+
+                    var stuffArray = JSON.parse(data)
+
+                    var checkbox = ""
+
+                    $("#stuffContainer").empty()
+                    for (var i = 0; i < Math.floor(((stuffArray.length - 1) / 3) + 1); i++) {
+
+                        $("#stuffContainer").append("                    <div class=\"row " + " row" + i + "\">" + templateStuff)
+
+                        var row = ".row" + (i)
+                        var checkbox = ""
+
+                        if (typeof stuffArray[(3 * i)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[3 * i] + "\">\n"
+                            checkbox += stuffArray[3 * i] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff0").append(checkbox)
+                        }
+
+                        if (typeof stuffArray[((3 * i) + 1)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[(3 * i) + 1] + "\">\n"
+                            checkbox += stuffArray[(3 * i) + 1] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff1").append(checkbox)
+                        }
+
+                        if (typeof stuffArray[((3 * i) + 2)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[(3 * i) + 2] + "\">\n"
+                            checkbox += stuffArray[(3 * i) + 2] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff2").append(checkbox)
+                        }
+
+                    }
+
+                    $("#attrContainer").empty()
+
+                    for (var i = 0; i < Math.floor(((spelAttrArray.length - 1) / 2) + 1); i++) {
+                        $("#attrContainer").append("                    <div class=\"row " + " attrRow" + i + "\">" + templateAttr)
+
+                        var row = ".attrRow" + (i)
+                        var checkbox = ""
+
+                        var checkbox = ""
+
+                        if (typeof spelAttrArray[(2 * i)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"attr\" value=\"" + spelAttrArray[2 * i] + "\">\n"
+                            checkbox += spelAttrArray[2 * i] + "\n" +
+                                "                        </label>"
+                            $(row).find(".attr0").append(checkbox)
+                        }
+
+                        if (typeof spelAttrArray[((2 * i) + 1)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"attr\" value=\"" + spelAttrArray[(2 * i) + 1] + "\">\n"
+                            checkbox += spelAttrArray[(2 * i) + 1] + "\n" +
+                                "                        </label>"
+                            $(row).find(".attr1").append(checkbox)
+                        }
+                    }
+
+                })
+
+        });
+
+        $('.conditionButton').on('click', function (event) {
+            event.preventDefault();
+            var inv = "#investigator" + $(this).attr('nr')
+            var conditions
+            $.get("/game/" + $(inv).text().trim() + "/condition", function () {
+            })
+                .done(function (data) {
+                    conditions = data
+
+                    modal.style.display = "block";
+                    $("#type").text("condition")
+                    $(".modal-header").text($(inv).text().trim())
+
+                    var stuffArray = JSON.parse(data)
+
+                    $("#stuffContainer").empty()
+                    for (var i = 0; i < Math.floor(((stuffArray.length - 1) / 3) + 1); i++) {
+
+                        $("#stuffContainer").append("                    <div class=\"row " + " row" + i + "\">" + templateStuff)
+
+                        var row = ".row" + (i)
+                        var checkbox = ""
+
+                        if (typeof stuffArray[(3 * i)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[3 * i] + "\">\n"
+                            checkbox += stuffArray[3 * i] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff0").append(checkbox)
+                        }
+
+                        if (typeof stuffArray[((3 * i) + 1)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[(3 * i) + 1] + "\">\n"
+                            checkbox += stuffArray[(3 * i) + 1] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff1").append(checkbox)
+                        }
+
+                        if (typeof stuffArray[((3 * i) + 2)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"stuff\" value=\"" + stuffArray[(3 * i) + 2] + "\">\n"
+                            checkbox += stuffArray[(3 * i) + 2] + "\n" +
+                                "                        </label>"
+                            $(row).find(".stuff2").append(checkbox)
+                        }
+
+                    }
+
+                    $("#attrContainer").empty()
+
+                    for (var i = 0; i < Math.floor(((conditionAttrArray.length - 1) / 2) + 1); i++) {
+                        $("#attrContainer").append("                    <div class=\"row " + " attrRow" + i + "\">" + templateAttr)
+
+                        var row = ".attrRow" + (i)
+                        var checkbox = ""
+
+                        var checkbox = ""
+
+                        if (typeof conditionAttrArray[(2 * i)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"attr\" value=\"" + conditionAttrArray[2 * i] + "\">\n"
+                            checkbox += conditionAttrArray[2 * i] + "\n" +
+                                "                        </label>"
+                            $(row).find(".attr0").append(checkbox)
+                        }
+
+                        if (typeof conditionAttrArray[((2 * i) + 1)] !== 'undefined') {
+                            checkbox = "                        <label class=\"form-check-label\">\n" +
+                                "                            <input class=\"form-check-input\" type=\"checkbox\" name = \"attr\" value=\"" + conditionAttrArray[(2 * i) + 1] + "\">\n"
+                            checkbox += conditionAttrArray[(2 * i) + 1] + "\n" +
+                                "                        </label>"
+                            $(row).find(".attr1").append(checkbox)
+                        }
+                    }
+
+
+                })
+
+        });
+
+        $('#discardButton').on('click', function (event) {
+
+            var array = $("input[name=stuff]:checked").map(function () {
+                return this.value;
+            }).get();
+
+            for (var i = 0; i < array.length; i++) {
+                $.ajax({
+                    url: "game/" + $(".modal-header").text() + "/" + $("#type").text() + "/" + array[i],
+                    type: 'DELETE',
+                    success: function (data) {
+                        window.location.reload()
+
+                    }
+                });
+            }
+
+
+        });
+
+        $('#addButton').on('click', function (event) {
+
+            var name = $('input[name=stuffName]').val()
+            $.ajax({
+                url: "game/" + $(".modal-header").text() + "/" + $("#type").text() + "/" + name,
+                type: 'POST',
+                success: function (data) {
+                    window.location.reload()
+
+                }
+            });
+
+
+        });
+
+        $('#addRandomButton').on('click', function (event) {
+
+            var array = $("input[name=attr]:checked").map(function () {
+                return this.value;
+            }).get();
+
+            var name = $('input[name=stuffName]').val()
+            $.ajax({
+                url: "game/" + $(".modal-header").text() + "/" + $("#type").text() + "/random",
+                type: 'POST',
+                data: {attr: JSON.stringify(array)},
+                success: function (data) {
+                    alert(data)
+                    window.location.reload()
+                }
+            });
+
+
+        });
+
+        $('.shopButton').on('click', function (event) {
+            $(".modal-header").text($(this).text().trim())
+            event.preventDefault();
+            shopModal.style.display = "block";
+            $("#type").text("shop")
+
+            var arrayA = []
+            $(".investigator").each(function (index) {
+                arrayA.push($(this).text().trim())
+            })
+
+            $(".invContainer").empty()
+
+            console.log(arrayA)
+            for (var i = 0; i < Math.floor(((arrayA.length - 1) / 2) + 1); i++) {
+                $(".invContainer").append("                    <div class=\"row " + " invRow" + i + "\">" + templateInv)
+
+                var row = ".invRow" + (i)
+
+                var checkbox = ""
+                console.log(arrayA[(2 * i)])
+                if (typeof arrayA[(2 * i)] !== 'undefined') {
+                    checkbox = "                       <button type=\"button\"  class=\"btn btn-info btn-lg btn-block invInshopButton\"> \n"
+                    checkbox += arrayA[2 * i] + "\n" +
+                        "                        </button>"
+                    $(row).find(".inv0").append(checkbox)
+                }
+                console.log(arrayA[((2 * i) + 1)])
+                if (typeof arrayA[((2 * i) + 1)] !== 'undefined') {
+                    checkbox = "                       <button type=\"button\"  class=\"btn btn-info btn-lg btn-block invInshopButton\"> \n"
+                    checkbox += arrayA[(2 * i) + 1] + "\n" +
+                        "                        </button>"
+                    $(row).find(".inv1").append(checkbox)
+                }
+            }
+
+            $('.invInshopButton').on('click', function (event) {
+                var inv = $(this).text().trim()
+                var name = $(".modal-header").first().text().trim()
+                $.ajax({
+                    url: "game/" + inv + "/" + $("#type").text() + "/" + name,
+                    type: 'POST',
+                    success: function (data) {
+                        window.location.reload()
+
+                    }
+                });
+            });
+
+            $('.discardShopButton').on('click', function (event) {
+                var inv = "shop"
+                var name = $(".modal-header").first().text().trim()
+                $.ajax({
+                    url: "game/" + inv + "/item/" + name,
+                    type: 'DELETE',
+                    success: function (data) {
+                        window.location.reload()
+
+                    }
+                });
+            });
+
+
+        });
+
+        $('#endButton').on('click', function (event) {
+            var r = confirm("Do you want to end game?");
+            if (r == true) {
+                window.location.href = 'http://127.0.0.1:5000/eldritch';
+            }
+
+        });
+        endButton
+    </script>
+
+
+</body>
+</html>

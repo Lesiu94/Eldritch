@@ -1,0 +1,39 @@
+ /* Modal Header */
+.modal-header .shopModal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Modal Body */
+.modal-body .shopModal-body {padding: 2px 16px;}
+
+/* Modal Footer */
+.modal-footer .shopModal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Modal Content */
+.modal-content .shopModal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+.col-md-6 {
+    margin-bottom:10px;
+    content: 'center';
+
+}
+
+.close {
+    visibility: hidden;
+}

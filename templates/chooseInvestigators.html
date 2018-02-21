@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Set yours collection</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+
+            <button type="button" id="returnButton" class="btn btn-info btn-lg btn-block">
+                Return
+            </button>
+        </div>
+        <div class="col-md-4" id="invCounter" style="text-align: center;">
+            <p>
+                Selected: 0/8 investigators
+
+            </p>
+        </div>
+        <div class="col-md-4">
+
+            <button type="button" id="startButton" class="btn btn-success btn-block btn-lg" disabled="true">
+                Start game
+            </button>
+        </div>
+    </div>
+
+    {{ investigators|safe }}
+
+
+</div>
+
+<script>
+
+    $('#returnButton').on('click', function (event) {
+        window.location.href = 'http://127.0.0.1:5000/eldritch';
+    });
+
+    $(':checkbox').change(function () {
+        var numberOfChecked = $('input:checkbox:checked').length;
+        $('#invCounter').text('Selected: ' + numberOfChecked + '/8 investigators');
+
+        if (numberOfChecked > 0 && numberOfChecked < 9) {
+            $('#startButton').attr("disabled", false);
+        } else {
+            $('#startButton').attr("disabled", true);
+        }
+    });
+
+    $('#startButton').on('click', function (event) {
+        var array = $("input[name='Investigator']:checked").map(function () {
+            return this.nextSibling.nodeValue;
+        }).get();
+        var jsonToSend = JSON.stringify(array);
+
+        $.post("setInvestigators", {investigators: jsonToSend})
+            .done(function () {
+                window.location.href = 'http://127.0.0.1:5000/startGame';
+            });
+    });
+
+
+</script>
+
+</body>
+
+
+</html>
